@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对不起，小美o(╥﹏╥)o</title>
+    <style>
+        html, body {
+            margin: 0; padding: 0;
+            background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+            font-family: 'Helvetica Neue', sans-serif;
+            color: #880e4f;
+            text-align: center;
+            min-height: 100vh;
+        }
+        h1 { font-size: 2.5em; margin-top: 40px; }
+        p { font-size: 1.2em; margin: 10px auto; width: 80%; line-height: 1.6; }
+        img { max-width: 80%; height: auto; border-radius: 12px; margin: 20px auto; }
+        #typewriter { 
+            font-size: 1.2em; width: 80%; margin: 20px auto; line-height: 1.6; 
+            white-space: pre-wrap; border-right: 2px solid #880e4f; overflow: hidden;
+        }
+        .btn { 
+            margin: 20px auto; padding: 12px 24px; font-size: 1.1em; 
+            background: white; color: #d81b60; border: 2px solid #d81b60;
+            border-radius: 8px; cursor: pointer; transition: all .3s ease;
+        }
+        .btn:hover { background: #fce4ec; }
+        .petal-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 0;
+        }
+        #chatbox {
+            margin: 20px auto; width: 80%; max-width: 600px; text-align: left;
+        }
+        .chat-line {
+            background: #fff; padding: 10px 15px; margin: 5px 0; border-radius: 12px;
+            border: 1px solid #ccc;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            p, #typewriter { font-size: 1em; }
+            .btn { font-size: 1em; padding: 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景音乐 -->
+    <audio autoplay loop>
+        <source src="bgm.mp3" type="audio/mpeg">
+        你的浏览器不支持音频播放
+    </audio>
+
+    <!-- 花瓣容器 -->
+    <div class="petal-container" id="petal-container"></div>
+
+    <!-- 道歉主体 -->
+    <h1>对不起，小美，I know my fault</h1>
+    <p>你不说话，我更难受。其实，我一直想对你说……对不起。</p>
+    <img src="xiaomei.jpg" alt="小美">
+    <p>我忘了你最重要的日子，我知道这不是一句“对不起”就能抹去的。</p>
+    <p>你装作风轻云淡，其实我知道你在意。我看得出你的失落，也更痛恨自己的疏忽。</p>
+    <p>如果还能补救，我想告诉你，你一直都是我心里最重要的小美。</p>
+    <p>对不起，小美。我在请你原谅我。</p>
+
+    <!-- 打字机效果告白 -->
+    <div id="typewriter"></div>
+
+    <!-- 聊天机器人互动按钮 -->
+    <button class="btn" onclick="startChat()">跟我聊几句吧</button>
+    <div id="chatbox" style="display:none;"></div>
+
+    <script>
+    // 1. 打字机效果
+    const followUp = "你对我而言一直很重要，这次的疏忽让我更加懂得珍惜。希望接下来的日子里，我能用实际行动来弥补，陪你一起走过以后的每一步。";
+    let ti = 0;
+    function typeWriter() {
+        if (ti < followUp.length) {
+            document.getElementById("typewriter").innerHTML += followUp.charAt(ti++);
+            setTimeout(typeWriter, 80);
+        }
+    }
+    window.onload = typeWriter;
+
+    // 2. 花瓣飘落动画
+    function createPetal() {
+        const petal = document.createElement("div");
+        petal.innerHTML = "&#10084;"; // 爱心当花瓣
+        Object.assign(petal.style, {
+            position: "absolute",
+            top: "-20px",
+            left: Math.random()*100 + "vw",
+            fontSize: Math.random()*10 + 15 + "px",
+            color: "rgba(255,105,180,0.8)",
+            animation: "fall " + (Math.random()*5+5) + "s linear forwards"
+        });
+        document.getElementById("petal-container").appendChild(petal);
+        setTimeout(()=>petal.remove(), 10000);
+    }
+    setInterval(createPetal, 400);
+    const style = document.createElement("style");
+    style.innerHTML = `@keyframes fall {
+        to { transform: translateY(100vh) rotate(360deg); opacity:0; }
+    }`;
+    document.head.appendChild(style);
+
+    // 3. 聊天机器人小互动
+    function startChat() {
+        const chat = document.getElementById("chatbox");
+        chat.style.display = "block";
+        const lines = [
+            "💬 小美，你还在生我的气吗？",
+            "💬 我会记住你的每一个重要时刻。",
+            "💬 感谢你愿意给我一个机会。",
+            "💬 爱你，从之前，也从现在开始。"
+        ];
+        lines.forEach((txt, i) => {
+            setTimeout(() => {
+                const d = document.createElement("div");
+                d.className = "chat-line";
+                d.innerText = txt;
+                chat.appendChild(d);
+            }, 800 * (i+1));
+        });
+    }
+    </script>
+</body>
+</html>
